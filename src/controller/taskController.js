@@ -31,7 +31,7 @@ const taskController = {
     } catch (error) {
       res.status(500).json({
         status: "error",
-        message: "Erro ao buscar as tasks",
+        message: "Erro ao buscar as tarefas",
         error: error.message,
       });
     }
