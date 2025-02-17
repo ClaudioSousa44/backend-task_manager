@@ -61,8 +61,17 @@ const taskController = {
 
   async atualizarTask(req, res) {
     try {
-      validaTask(req.body);
       const taskId = validaId(req.params.id);
+      validaTask(req.body);
+
+      taskExiste = await taskModel.buscarPorId(taskId);
+
+      if (!taskExiste) {
+        return res.status(404).json({
+          status: "error",
+          message: "Task não encontrada",
+        });
+      }
 
       const task = await taskModel.atualizar(taskId, req.body);
 
@@ -142,7 +151,6 @@ function validaId(id) {
 }
 
 function tratarErro(res, error) {
-  console.log("Erro:", error);
   if (error.status) {
     return res.status(error.status).json({
       status: "error",
