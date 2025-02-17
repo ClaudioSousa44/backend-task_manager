@@ -11,7 +11,7 @@ const taskController = {
 
       res.status(201).json({
         status: "success",
-        message: "Task criada com sucesso",
+        message: "Tarefa criada com sucesso",
         data: task,
       });
     } catch (error) {
@@ -25,7 +25,7 @@ const taskController = {
 
       res.status(200).json({
         status: "success",
-        message: "Tasks encontradas com sucesso",
+        message: "Tarefas encontradas com sucesso",
         data: tasks,
       });
     } catch (error) {
@@ -45,13 +45,13 @@ const taskController = {
       if (!task) {
         return res.status(404).json({
           status: "error",
-          message: "Task não encontrada",
+          message: "Tarefa não encontrada",
         });
       }
 
       res.status(200).json({
         status: "success",
-        message: "Task encontrada com sucesso",
+        message: "Tarefa encontrada com sucesso",
         data: task,
       });
     } catch (error) {
@@ -64,12 +64,12 @@ const taskController = {
       const taskId = validaId(req.params.id);
       validaTask(req.body);
 
-      taskExiste = await taskModel.buscarPorId(taskId);
+      const taskExiste = await taskModel.buscarPorId(taskId);
 
       if (!taskExiste) {
         return res.status(404).json({
           status: "error",
-          message: "Task não encontrada",
+          message: "Tarefa não encontrada",
         });
       }
 
@@ -77,7 +77,7 @@ const taskController = {
 
       res.status(200).json({
         status: "success",
-        message: "Task atualizada com sucesso",
+        message: "Tarefa atualizada com sucesso",
         data: task,
       });
     } catch (error) {
@@ -93,7 +93,7 @@ const taskController = {
       if (!task) {
         return res.status(404).json({
           status: "error",
-          message: "Task não encontrada",
+          message: "Tarefa não encontrada",
         });
       }
 
@@ -101,7 +101,7 @@ const taskController = {
 
       res.status(200).json({
         status: "success",
-        message: "Task deletada com sucesso",
+        message: "Tarefa deletada com sucesso",
       });
     } catch (error) {
       tratarErro(res, error);
@@ -138,13 +138,13 @@ function validaTask(task) {
 
 function validaId(id) {
   if (!id) {
-    throw { status: 400, message: "O ID da task é obrigatório" };
+    throw { status: 400, message: "O ID da Tarefa é obrigatório" };
   }
 
   const taskId = parseInt(id, 10);
 
   if (isNaN(taskId)) {
-    throw { status: 400, message: "O ID da task deve ser um número válido" };
+    throw { status: 400, message: "O ID da Tarefa deve ser um número válido" };
   }
 
   return taskId;

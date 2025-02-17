@@ -28,7 +28,7 @@ describe("Task Controller", () => {
     expect(res.json).toHaveBeenCalledWith(
       expect.objectContaining({
         status: "success",
-        message: "Task criada com sucesso",
+        message: "Tarefa criada com sucesso",
         data: expect.any(Object),
       })
     );
@@ -47,7 +47,7 @@ describe("Task Controller", () => {
     expect(res.json).toHaveBeenCalledWith(
       expect.objectContaining({
         status: "success",
-        message: "Tasks encontradas com sucesso",
+        message: "Tarefas encontradas com sucesso",
         data: tasks,
       })
     );
@@ -63,7 +63,7 @@ describe("Task Controller", () => {
     expect(res.json).toHaveBeenCalledWith(
       expect.objectContaining({
         status: "success",
-        message: "Task encontrada com sucesso",
+        message: "Tarefa encontrada com sucesso",
         data: expect.any(Object),
       })
     );
@@ -78,18 +78,25 @@ describe("Task Controller", () => {
     expect(res.status).toHaveBeenCalledWith(404);
     expect(res.json).toHaveBeenCalledWith({
       status: "error",
-      message: "Task não encontrada",
+      message: "Tarefa não encontrada",
     });
   });
 
   it("Deve atualizar uma task", async () => {
-    req.params.id = "1";
+    req.params.id = "4";
     req.body = {
       titulo: "Task Atualizada",
       descricao: "Nova descrição",
       status: "concluido",
     };
-    taskModel.atualizar.mockResolvedValue({ id: 1, ...req.body });
+
+    taskModel.buscarPorId.mockResolvedValue({ id: 4 });
+    taskModel.atualizar.mockResolvedValue({
+      id: 4,
+      titulo: "Task Atualizada",
+      descricao: "Nova descrição",
+      status: "concluido",
+    });
 
     await taskController.atualizarTask(req, res);
 
@@ -97,7 +104,7 @@ describe("Task Controller", () => {
     expect(res.json).toHaveBeenCalledWith(
       expect.objectContaining({
         status: "success",
-        message: "Task atualizada com sucesso",
+        message: "Tarefa atualizada com sucesso",
         data: expect.any(Object),
       })
     );
@@ -105,7 +112,7 @@ describe("Task Controller", () => {
 
   it("Deve deletar uma task existente", async () => {
     req.params.id = "1";
-    taskModel.buscarPorId.mockResolvedValue({ id: 1, titulo: "Task 1" });
+    taskModel.buscarPorId.mockResolvedValue({ id: 1 });
     taskModel.deletar.mockResolvedValue();
 
     await taskController.deletarTask(req, res);
@@ -113,7 +120,7 @@ describe("Task Controller", () => {
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({
       status: "success",
-      message: "Task deletada com sucesso",
+      message: "Tarefa deletada com sucesso",
     });
   });
 
@@ -126,7 +133,7 @@ describe("Task Controller", () => {
     expect(res.status).toHaveBeenCalledWith(404);
     expect(res.json).toHaveBeenCalledWith({
       status: "error",
-      message: "Task não encontrada",
+      message: "Tarefa não encontrada",
     });
   });
 });
